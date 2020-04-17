@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Air Pollutant Simulation</title>
+  <script src="js/vendor/require.js" data-main="js/main"></script>
+  <style>
+    body,html {
+      margin:0;
+      padding:0;
+    }
+    canvas {
+      background-color: black;
+    }
+    .dg{
+      display: none !important;
+    }
+    .msgbox{
+      margin-left: 40%;
+      margin-right: auto;
+      background-color: rgba(0,0,255,.5);
+      width: 24vw;
+      height: 17vh;
+      position: absolute;
+      padding-left: 2vw;
+      padding-right: 2vw;
+      font-family:Arial, Helvetica, sans-serif
+    }
+    #msgId{
+      color: white;
+    }
+  </style>
+</head>
+<body>
+  <div class="msgbox" id="realmsgbox">
+    <p id="msgId">In this simulation, there is a person sleeping in the bottom right corner and any type of egress in the top left (window, door, or actual air filter). </p>
+    <a href='http://vair-monitor.com/2016/09/29/sleeping-closed-room-indoor-co2-analyze/' id='src1' style='display:none;'>Vair-Monitor - Indoor CO2 Analyze</a>
+    <br><a href='https://www.co2meter.com/blogs/news/4418142-dangers-of-co2-what-you-need-to-know' id='src2' style='display:none;'>CO2Meter - Dangers of CO2</a>
+    <br><a href='https://smarterhouse.org/ventilation-and-air-distribution/indoor-air-pollutants' id='src3' style='display:none;'>SmarterHouse - Indoor Air Pollutants</a>
+    <br><a href='https://ethanolrfa.org/wp-content/uploads/2016/02/Module-2-Handout-How-Inhaled-CO2-Affects-the-Body-%E2%80%93-Fact-Sheet.pdf' id='src4' style='display:none;'>How Inhaled Carbon Dioxide Affects the Body</a>
+    <br><a href='https://minkukel.com/en/visualize-it/every-breath-you-take/' id='src5' style='display:none;'>Minukel Plus - Every breath you take</a>
+
+    <center><button onClick="nextSlide()" id='nextbtn' style='margin-top: -7vh; position: absolute; margin-left: -2vh;'>Next</button></center>
+  </div>
+<canvas id="canvas"></canvas>
+</body>
+<script>
+
+  var partCounted = 0
+  var partCount = setInterval(function(){
+    var name = "particleCount=";
+    var decodedCookie = decodeURIComponent(document.cookie);
+    var ca = decodedCookie.split(';');
+    for(var i = 0; i <ca.length; i++) {
+      var c = ca[i];
+      while (c.charAt(0) == ' ') {
+        c = c.substring(1);
+      }
+    if (c.indexOf(name) == 0) {
+     partCounted = c.substring(name.length, c.length);
+    }
+  }
+      console.log("Part count = " + partCounted)
+    }, 250);
+
+  function msg(txt){
+    document.getElementById('msgId').innerHTML = txt;
+  }
+
+
+var slide = 1;
+
+function nextSlide(){
+
+  slide++;
+  if(slide == 2){
+    msg("The person will breath out for 4 seconds in 4 second intervals. Black represents anything else in the normal air currently. Each blue particle represents about 158 CO2 particles.")
+  } else if(slide == 3){
+      myVar = setInterval(function(){
+        msg("In realtime, there are " + partCounted + " CO2 particles on the screen right now, representing what would be " + (partCounted*158) + " real CO2 particles. Given this room is 11x12x9ft, the air is about " + ((partCounted*158)/1782000).toFixed(3) + "% CO2 right now.")
+      }, 250);
+
+    } else if(slide == 4){
+      clearInterval(myVar);
+        msg("Keeping that percentage in mind, CO2 will already start having effects at the 0.04% mark. Adjusted for real time, the CO2 in a room matched to this simulation would become a hazard in less than an hour.")
+    } else if(slide == 5){
+    msg("CO2 is not the only indoor air pollutant though. There are countless other gases and particles that can pollute the air around you without you ever noticing. Examples include Radon, CO, tobacco smoke, and even formaldehyde emitted by furniture and carpet. ")
+  } else if(slide == 6){
+    msg("Indoor air pollutants are inavoidable, but by practicing safe habits like keeping a door or window cracked when you're sleeping or consistently checking carbon-monoxide detectors, you suddenly become a lot safer.")
+  } else if(slide == 7){
+    msg("Indoor air pollutants can be very dangerous, but there are lots of resources online to keep you safe. It is important for everyone to be educated on not only dangers of pollutants like these but also how to protect from them.")
+  } else if(slide == 8){
+    msg("Made by Nic Carlson and Paul Williams for Mrs. Carlson Chem project. Please view the next slide for our sources.")
+  } else if(slide == 9){
+    msg("")
+    document.getElementById('src1').style.display = 'block'
+    document.getElementById('src2').style.display = 'block'
+    document.getElementById('src3').style.display = 'block'
+    document.getElementById('src4').style.display = 'block'
+    document.getElementById('src5').style.display = 'block'
+    document.getElementById('nextbtn').style.display = 'none'
+    document.getElementById('realmsgbox').style.backgroundColor = 'white';
+    document.getElementById('realmsgbox').style.height = '22vh'
+
+  }
+}
+
+</script>
+</html>
